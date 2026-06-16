@@ -1,0 +1,1053 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>DANIUX - Protótipo</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg: #070707;
+      --panel: rgba(18,18,18,.78);
+      --panel2: rgba(14,14,14,.72);
+      --stroke: rgba(226, 180, 82, .28);
+      --stroke2: rgba(226, 180, 82, .18);
+      --gold: #e2b452;
+      --gold2:#f3d48b;
+      --text: rgba(255,255,255,.88);
+      --muted: rgba(255,255,255,.65);
+      --shadow: 0 18px 55px rgba(0,0,0,.55);
+      --radius: 18px;
+      --radius2: 14px;
+      --max: 1120px;
+    }
+
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; }
+    body{
+      margin:0;
+      background: radial-gradient(1200px 700px at 75% 10%, rgba(226,180,82,.10), transparent 60%),
+                  radial-gradient(900px 500px at 15% 30%, rgba(226,180,82,.06), transparent 55%),
+                  linear-gradient(180deg, #050505, #070707 40%, #050505);
+      color: var(--text);
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      overflow-x:hidden;
+    }
+
+    body:before{
+      content:"";
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      opacity:.15;
+      background-image:
+        radial-gradient(circle at 1px 1px, rgba(226,180,82,.35) 1px, transparent 1.2px);
+      background-size: 22px 22px;
+      mask-image: radial-gradient(600px 450px at 80% 15%, #000 40%, transparent 75%);
+    }
+
+    .container{ width:min(var(--max), calc(100% - 40px)); margin-inline:auto; }
+
+    .frame{
+      position:relative;
+      isolation:isolate;
+    }
+    .frame:before, .frame:after{
+      content:"";
+      position:absolute;
+      inset:-180px -120px auto auto;
+      width:520px; height:520px;
+      border-radius: 30px;
+      background:
+        linear-gradient(135deg, transparent 45%, rgba(226,180,82,.75) 48%, transparent 52%),
+        linear-gradient(135deg, transparent 60%, rgba(226,180,82,.25) 62%, transparent 65%);
+      filter: drop-shadow(0 0 25px rgba(226,180,82,.18));
+      opacity:.35;
+      z-index:-1;
+      transform: rotate(10deg);
+    }
+    .frame:after{
+      inset:auto auto -220px -140px;
+      transform: rotate(190deg);
+      opacity:.30;
+    }
+
+    /* Header */
+    header{
+      position:sticky;
+      top:0;
+      z-index:50;
+      backdrop-filter: blur(10px);
+      background: linear-gradient(180deg, rgba(5,5,5,.78), rgba(5,5,5,.35));
+      border-bottom: 1px solid rgba(226,180,82,.10);
+    }
+    .topbar{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+      padding: 14px 0;
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      min-width: 180px;
+    }
+    .brand .mark{
+      width:44px; height:44px;
+      border-radius: 14px;
+      background: radial-gradient(circle at 30% 25%, rgba(243,212,139,.35), transparent 55%),
+                  linear-gradient(180deg, rgba(226,180,82,.22), rgba(226,180,82,.05));
+      border: 1px solid var(--stroke);
+      box-shadow: 0 10px 40px rgba(0,0,0,.45);
+      display:grid;
+      place-items:center;
+    }
+    .brand .word{
+      font-family: Cinzel, serif;
+      letter-spacing: .22em;
+      font-weight: 700;
+      color: rgba(243,212,139,.92);
+      font-size: 18px;
+      line-height: 1;
+    }
+
+    /* Desktop nav: mais natural (sem "pills" em excesso) */
+    nav{
+      display:flex;
+      align-items:center;
+      gap: 18px;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+    }
+    .navlink{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding: 10px 6px;
+      color: rgba(243,212,139,.82);
+      text-decoration:none;
+      font-size: 12.5px;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      border-bottom: 1px solid transparent;
+      transition: color .15s ease, border-color .15s ease, transform .15s ease;
+      user-select:none;
+    }
+    .navlink:hover{
+      color: rgba(243,212,139,.96);
+      border-bottom-color: rgba(226,180,82,.45);
+      transform: translateY(-1px);
+    }
+    .nav-cta{
+      margin-left: 6px;
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding: 10px 14px;
+      border-radius: 14px;
+      background: linear-gradient(180deg, rgba(18,18,18,.78), rgba(10,10,10,.72));
+      border: 1px solid rgba(226,180,82,.22);
+      color: rgba(243,212,139,.92);
+      text-decoration:none;
+      font-size: 12.5px;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      box-shadow: 0 10px 25px rgba(0,0,0,.35);
+      transition: transform .15s ease, border-color .15s ease, background .15s ease;
+    }
+    .nav-cta:hover{
+      transform: translateY(-1px);
+      border-color: rgba(226,180,82,.35);
+      background: linear-gradient(180deg, rgba(22,22,22,.86), rgba(10,10,10,.74));
+    }
+
+    .icon{
+      width:18px; height:18px;
+      display:inline-block;
+      color: var(--gold);
+      opacity:.95;
+    }
+
+    /* Mobile */
+    .menu-btn{ display:none; }
+    .pill{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      padding: 10px 14px;
+      border-radius: 14px;
+      background: linear-gradient(180deg, rgba(18,18,18,.78), rgba(10,10,10,.72));
+      border: 1px solid rgba(226,180,82,.20);
+      color: rgba(243,212,139,.88);
+      text-decoration:none;
+      font-size: 12.5px;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      box-shadow: 0 10px 25px rgba(0,0,0,.35);
+      transition: transform .15s ease, border-color .15s ease, background .15s ease;
+      user-select:none;
+    }
+    .pill:hover{
+      transform: translateY(-1px);
+      border-color: rgba(226,180,82,.35);
+      background: linear-gradient(180deg, rgba(22,22,22,.86), rgba(10,10,10,.74));
+    }
+
+    @media (max-width: 880px){
+      nav{ display:none; }
+      .menu-btn{ display:inline-flex; }
+      .drawer{
+        position:fixed;
+        top:70px; right:20px;
+        width:min(320px, calc(100% - 40px));
+        background: linear-gradient(180deg, rgba(18,18,18,.92), rgba(10,10,10,.86));
+        border:1px solid rgba(226,180,82,.22);
+        border-radius: 16px;
+        box-shadow: var(--shadow);
+        padding:12px;
+        display:none;
+      }
+      .drawer.open{ display:grid; gap:10px; }
+      .drawer a{ justify-content:flex-start; }
+    }
+
+    /* Hero */
+    .hero{ padding: 38px 0 24px; }
+    .hero-grid{
+      display:grid;
+      grid-template-columns: 1.05fr .95fr;
+      gap: 26px;
+      align-items:center;
+      padding: 18px 0 6px;
+    }
+    .kicker{
+      font-family: Cinzel, serif;
+      letter-spacing: .26em;
+      color: rgba(243,212,139,.78);
+      font-size: 12px;
+      text-transform: uppercase;
+      margin: 0 0 14px;
+    }
+    h1{
+      margin:0;
+      font-family: Inter, system-ui, sans-serif;
+      font-size: clamp(32px, 4vw, 46px);
+      letter-spacing: .02em;
+      line-height: 1.08;
+      font-weight: 700;
+    }
+    .gold{
+      background: linear-gradient(180deg, rgba(243,212,139,1), rgba(226,180,82,.75));
+      -webkit-background-clip: text;
+      background-clip:text;
+      color: transparent;
+      text-shadow: 0 18px 60px rgba(226,180,82,.12);
+    }
+    .lead{
+      margin: 16px 0 22px;
+      color: var(--muted);
+      max-width: 60ch;
+      font-size: 15.5px;
+      line-height: 1.6;
+    }
+
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding: 12px 16px;
+      border-radius: 14px;
+      border:1px solid rgba(226,180,82,.30);
+      background: linear-gradient(180deg, rgba(18,18,18,.82), rgba(10,10,10,.76));
+      color: rgba(243,212,139,.92);
+      text-decoration:none;
+      font-weight:600;
+      letter-spacing:.02em;
+      box-shadow: 0 14px 30px rgba(0,0,0,.35);
+      transition: transform .15s ease, border-color .15s ease;
+    }
+    .btn:hover{ transform: translateY(-1px); border-color: rgba(226,180,82,.45); }
+    .btn:active{ transform: translateY(0px); }
+
+    .hero-art{
+      position:relative;
+      border-radius: var(--radius);
+      background: radial-gradient(650px 350px at 55% 15%, rgba(226,180,82,.18), transparent 65%),
+                  linear-gradient(180deg, rgba(18,18,18,.78), rgba(10,10,10,.70));
+      border: 1px solid rgba(226,180,82,.20);
+      box-shadow: var(--shadow);
+      padding: 22px;
+      overflow:hidden;
+      min-height: 240px;
+    }
+    .hero-logo{
+      position:absolute;
+      inset: 18px 18px auto auto;
+      opacity:.18;
+      transform: scale(1.15);
+    }
+    .bigD{
+      display:grid;
+      place-items:center;
+      height: 100%;
+      padding: 6px 0 0;
+    }
+    .wordmark{
+      font-family: Cinzel, serif;
+      letter-spacing: .38em;
+      font-size: clamp(30px, 3vw, 44px);
+      margin-top: 10px;
+      color: rgba(243,212,139,.92);
+      text-shadow: 0 25px 70px rgba(226,180,82,.14);
+    }
+    .spark{
+      position:absolute;
+      inset:-30px -30px auto auto;
+      width:220px; height:220px;
+      background: radial-gradient(circle at 30% 35%, rgba(243,212,139,.55), transparent 55%);
+      filter: blur(2px);
+      opacity:.28;
+    }
+
+    @media (max-width: 900px){
+      .hero-grid{ grid-template-columns: 1fr; }
+      .hero-art{ min-height: 220px; }
+    }
+
+    /* Sections */
+    section{ padding: 34px 0; }
+    .section-title{
+      text-align:center;
+      margin-bottom: 18px;
+    }
+    .section-title h2{
+      margin:0;
+      font-family: Cinzel, serif;
+      letter-spacing:.18em;
+      text-transform: uppercase;
+      font-size: 20px;
+      color: rgba(243,212,139,.90);
+    }
+    .section-title p{
+      margin: 10px auto 0;
+      color: var(--muted);
+      max-width: 68ch;
+      font-size: 14.5px;
+      line-height: 1.6;
+    }
+
+    /* Services grid */
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 14px;
+    }
+    .card{
+      border-radius: 16px;
+      background: linear-gradient(180deg, rgba(18,18,18,.78), rgba(10,10,10,.72));
+      border:1px solid rgba(226,180,82,.20);
+      box-shadow: 0 16px 40px rgba(0,0,0,.35);
+      padding: 16px 14px;
+      min-height: 118px;
+      display:flex;
+      flex-direction:column;
+      justify-content:space-between;
+      transition: transform .15s ease, border-color .15s ease;
+      position:relative;
+      overflow:hidden;
+    }
+    .card:before{
+      content:"";
+      position:absolute;
+      inset:-60px -60px auto auto;
+      width:140px; height:140px;
+      background: radial-gradient(circle at 30% 35%, rgba(226,180,82,.20), transparent 55%);
+      opacity:.45;
+      transform: rotate(15deg);
+    }
+    .card:hover{ transform: translateY(-2px); border-color: rgba(226,180,82,.35); }
+    .card .ico{
+      width:34px; height:34px;
+      color: rgba(226,180,82,.9);
+      opacity:.95;
+      margin-bottom:10px;
+    }
+    .card h3{
+      margin:0;
+      font-size: 12.5px;
+      line-height:1.25;
+      color: rgba(255,255,255,.82);
+      font-weight: 600;
+    }
+    @media (max-width: 1080px){ .grid{ grid-template-columns: repeat(4, 1fr); } }
+    @media (max-width: 720px){ .grid{ grid-template-columns: repeat(2, 1fr); } }
+
+    /* Training band */
+    .band{
+      border-radius: var(--radius);
+      border:1px solid rgba(226,180,82,.18);
+      background: linear-gradient(180deg, rgba(18,18,18,.72), rgba(10,10,10,.66));
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      display:grid;
+      grid-template-columns: 1.15fr .85fr;
+      min-height: 240px;
+    }
+    .band .copy{
+      padding: 22px 22px 22px;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      gap:10px;
+    }
+    .band h3{
+      margin:0;
+      font-family: Cinzel, serif;
+      letter-spacing:.14em;
+      text-transform: uppercase;
+      color: rgba(243,212,139,.90);
+      font-size: 20px;
+    }
+    .band p{
+      margin:0;
+      color: var(--muted);
+      line-height:1.6;
+      font-size: 14.5px;
+      max-width: 62ch;
+    }
+    .band .media{
+      position:relative;
+      min-height: 220px;
+      background:
+        linear-gradient(90deg, rgba(0,0,0,.5), rgba(0,0,0,.1)),
+        url("https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=1200&q=70") center/cover no-repeat;
+      border-left: 1px solid rgba(226,180,82,.14);
+    }
+    .dots{
+      position:absolute;
+      inset:0;
+      background-image: radial-gradient(circle, rgba(226,180,82,.22) 1px, transparent 1.2px);
+      background-size: 18px 18px;
+      opacity:.35;
+      mask-image: linear-gradient(90deg, transparent, #000 28%, #000 80%, transparent);
+      pointer-events:none;
+    }
+    @media (max-width: 900px){
+      .band{ grid-template-columns: 1fr; }
+      .band .media{ border-left:0; border-top: 1px solid rgba(226,180,82,.14); }
+    }
+
+    /* Social proof */
+    .quotes{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+    .quote{
+      border-radius: 16px;
+      background: linear-gradient(180deg, rgba(18,18,18,.78), rgba(10,10,10,.72));
+      border:1px solid rgba(226,180,82,.20);
+      box-shadow: 0 16px 40px rgba(0,0,0,.35);
+      padding: 16px 16px 14px;
+      min-height: 140px;
+      position:relative;
+    }
+    .quote .mark{
+      font-family: Cinzel, serif;
+      font-size: 38px;
+      color: rgba(226,180,82,.75);
+      line-height: 1;
+      opacity:.8;
+    }
+    .quote p{ margin: 6px 0 12px; color: rgba(255,255,255,.78); font-size: 13.8px; line-height:1.55; }
+    .who{ display:flex; justify-content:space-between; align-items:flex-end; gap:10px; }
+    .who small{ color: var(--muted); display:block; margin-top:2px; }
+    .stars{ color: rgba(226,180,82,.85); letter-spacing:2px; font-size: 12px; }
+    @media (max-width: 980px){ .quotes{ grid-template-columns: 1fr; } }
+
+    /* About + Contact */
+    .split{
+      display:grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 14px;
+      align-items:stretch;
+    }
+    .panel{
+      border-radius: var(--radius);
+      background: linear-gradient(180deg, rgba(18,18,18,.78), rgba(10,10,10,.72));
+      border:1px solid rgba(226,180,82,.18);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .about{
+      display:grid;
+      grid-template-columns: 260px 1fr;
+      gap: 0;
+      min-height: 290px;
+    }
+    .photo{
+      background:
+        radial-gradient(400px 220px at 50% 30%, rgba(226,180,82,.18), transparent 60%),
+        url("https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=900&q=70") center/cover no-repeat;
+      border-right:1px solid rgba(226,180,82,.14);
+      min-height: 290px;
+    }
+    .about .txt{ padding: 18px 18px 16px; }
+    .about h3{
+      margin: 6px 0 10px;
+      font-family: Cinzel, serif;
+      letter-spacing:.14em;
+      text-transform: uppercase;
+      color: rgba(243,212,139,.90);
+      font-size: 18px;
+    }
+    .about p{
+      margin:0;
+      color: var(--muted);
+      line-height:1.65;
+      font-size: 14.2px;
+      max-width: 72ch;
+    }
+    .sig{ margin-top: 14px; color: rgba(243,212,139,.86); font-family: "Cinzel", serif; letter-spacing:.12em; }
+    .sig small{ display:block; color: rgba(255,255,255,.58); font-family: Inter, sans-serif; letter-spacing:0; margin-top: 6px; }
+
+    .contact{
+      padding: 18px;
+      display:flex;
+      flex-direction:column;
+      gap: 12px;
+      justify-content:space-between;
+    }
+    .contact h3{
+      margin: 6px 0 6px;
+      font-family: Cinzel, serif;
+      letter-spacing:.14em;
+      text-transform: uppercase;
+      color: rgba(243,212,139,.90);
+      font-size: 18px;
+    }
+    .list{ display:grid; gap: 10px; color: rgba(255,255,255,.78); font-size: 14px; }
+    .row{
+      display:flex;
+      align-items:center;
+      gap: 10px;
+      padding: 10px 12px;
+      border-radius: 14px;
+      border:1px solid rgba(226,180,82,.14);
+      background: rgba(0,0,0,.18);
+    }
+    .social{ display:flex; gap:10px; flex-wrap:wrap; margin-top: 10px; }
+    .social a{
+      width: 38px; height: 38px;
+      border-radius: 14px;
+      display:grid;
+      place-items:center;
+      border:1px solid rgba(226,180,82,.18);
+      background: rgba(0,0,0,.22);
+      color: rgba(243,212,139,.88);
+      text-decoration:none;
+      transition: transform .15s ease, border-color .15s ease;
+    }
+    .social a:hover{ transform: translateY(-1px); border-color: rgba(226,180,82,.35); }
+
+    @media (max-width: 980px){
+      .split{ grid-template-columns: 1fr; }
+      .about{ grid-template-columns: 1fr; }
+      .photo{ border-right:0; border-bottom: 1px solid rgba(226,180,82,.14); min-height: 240px; }
+    }
+
+    /* Final manifesto */
+    .manifesto{
+      margin-top: 22px;
+      padding: 16px 18px;
+      border-radius: 16px;
+      border: 1px solid rgba(226,180,82,.16);
+      background: linear-gradient(180deg, rgba(18,18,18,.68), rgba(10,10,10,.60));
+      box-shadow: 0 16px 40px rgba(0,0,0,.30);
+      color: rgba(255,255,255,.72);
+      line-height: 1.7;
+    }
+    .manifesto strong{
+      color: rgba(243,212,139,.92);
+      font-weight: 600;
+    }
+
+    footer{
+      padding: 22px 0 40px;
+      color: rgba(255,255,255,.55);
+      border-top: 1px solid rgba(226,180,82,.10);
+      margin-top: 22px;
+    }
+    .foot{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 14px;
+      flex-wrap:wrap;
+    }
+
+    /* Reveal */
+    .reveal{
+      opacity:0;
+      transform: translateY(14px);
+      transition: opacity .7s ease, transform .7s ease;
+    }
+    .reveal.on{
+      opacity:1;
+      transform: translateY(0);
+    }
+
+    svg{ display:block; }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="container">
+      <div class="topbar">
+        <div class="brand">
+          <div class="mark" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+              <path d="M7 5h6.2c3.3 0 5.8 2.5 5.8 7s-2.5 7-5.8 7H7V5Z" stroke="rgba(226,180,82,.9)" stroke-width="1.6"/>
+              <path d="M9 8h4.4c2.0 0 3.6 1.7 3.6 4s-1.6 4-3.6 4H9" stroke="rgba(243,212,139,.75)" stroke-width="1.6" opacity=".9"/>
+              <path d="M4 7h2M4 12h2M4 17h2" stroke="rgba(226,180,82,.7)" stroke-width="1.6" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="word">DANIUX</div>
+        </div>
+
+        <!-- Desktop nav (natural) -->
+        <nav aria-label="Navegação principal">
+          <a class="navlink" href="#servicos">
+            <span class="icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path d="M12 3l7 7-9 11-7-7 11-11Z" stroke="currentColor" stroke-width="1.7"/>
+              </svg>
+            </span>
+            Serviços
+          </a>
+
+          <a class="navlink" href="#treinamento">
+            <span class="icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path d="M4 7l8-4 8 4-8 4-8-4Z" stroke="currentColor" stroke-width="1.7"/>
+              </svg>
+            </span>
+            Treinamento
+          </a>
+
+          <a class="navlink" href="#prova">
+            <span class="icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path d="M16 11c1.7 0 3 1.3 3 3v5h-6v-5c0-1.7 1.3-3 3-3Z" stroke="currentColor" stroke-width="1.7"/>
+                <path d="M8 11c1.7 0 3 1.3 3 3v5H5v-5c0-1.7 1.3-3 3-3Z" stroke="currentColor" stroke-width="1.7" opacity=".85"/>
+              </svg>
+            </span>
+            Prova Social
+          </a>
+
+          <a class="navlink" href="#quem">
+            <span class="icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z" stroke="currentColor" stroke-width="1.7"/>
+                <path d="M4 21c1.8-4 13.2-4 16 0" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+              </svg>
+            </span>
+            Quem é
+          </a>
+
+          <a class="nav-cta" id="navCtaWhats" href="#" target="_blank" rel="noopener">
+            <span class="icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path d="M7 4h4l1 4-2 1c1 3 3 5 6 6l1-2 4 1v4c0 1-1 2-2 2-9 0-16-7-16-16 0-1 1-2 2-2Z" stroke="currentColor" stroke-width="1.7"/>
+              </svg>
+            </span>
+            Contato
+          </a>
+        </nav>
+
+        <!-- Mobile button -->
+        <a class="pill menu-btn" id="menuBtn" href="#menu" aria-label="Abrir menu">
+          <span class="icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M4 7h16M4 12h16M4 17h12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+            </svg>
+          </span>
+          Menu
+        </a>
+      </div>
+    </div>
+
+    <div class="drawer" id="drawer" aria-label="Menu mobile">
+      <a class="pill" href="#servicos">Serviços</a>
+      <a class="pill" href="#treinamento">Treinamento</a>
+      <a class="pill" href="#prova">Prova Social</a>
+      <a class="pill" href="#quem">Quem é</a>
+      <a class="pill" href="#contato">Contato</a>
+    </div>
+  </header>
+
+  <main class="frame">
+    <div class="container hero" id="menu">
+      <div class="hero-grid">
+        <div class="reveal">
+          <p class="kicker">DANIEL | Presença Digital para Negócios</p>
+          <h1>MARKETING QUE<br><span class="gold">GERA RESULTADOS</span></h1>
+          <p class="lead">
+            Presença digital estratégica para negócios: Google Business Profile, tráfego pago e campanhas
+            no Facebook & Instagram Ads.
+          </p>
+          <a class="btn" id="heroWhats" href="#" target="_blank" rel="noopener">
+            <span class="icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path d="M7 4h4l1 4-2 1c1 3 3 5 6 6l1-2 4 1v4c0 1-1 2-2 2-9 0-16-7-16-16 0-1 1-2 2-2Z" stroke="currentColor" stroke-width="1.7"/>
+              </svg>
+            </span>
+            FALE COM UM ESPECIALISTA
+          </a>
+        </div>
+
+        <div class="hero-art reveal">
+          <div class="spark" aria-hidden="true"></div>
+
+          <div class="hero-logo" aria-hidden="true">
+            <svg width="240" height="240" viewBox="0 0 240 240" fill="none">
+              <path d="M72 46h60c36 0 64 29 64 74s-28 74-64 74H72V46Z"
+                    stroke="rgba(226,180,82,.9)" stroke-width="10"/>
+              <path d="M88 70h40c25 0 45 22 45 50s-20 50-45 50H88"
+                    stroke="rgba(243,212,139,.65)" stroke-width="10" opacity=".8"/>
+              <path d="M50 92h30M35 120h45M44 150h36" stroke="rgba(226,180,82,.6)" stroke-width="6" stroke-linecap="round"/>
+              <circle cx="46" cy="92" r="6" fill="rgba(226,180,82,.6)"/>
+              <circle cx="33" cy="120" r="6" fill="rgba(226,180,82,.5)"/>
+              <circle cx="40" cy="150" r="6" fill="rgba(226,180,82,.45)"/>
+            </svg>
+          </div>
+
+          <div class="bigD">
+            <svg width="180" height="130" viewBox="0 0 240 170" fill="none" aria-label="Logo DANIUX (placeholder)">
+              <path d="M62 26h78c48 0 86 37 86 59s-38 59-86 59H62V26Z"
+                    stroke="rgba(226,180,82,.95)" stroke-width="10"/>
+              <path d="M124 58c-14 0-25 12-25 26s11 26 25 26"
+                    stroke="rgba(243,212,139,.8)" stroke-width="8" stroke-linecap="round"/>
+              <path d="M124 58c14 0 25 12 25 26s-11 26-25 26"
+                    stroke="rgba(243,212,139,.8)" stroke-width="8" stroke-linecap="round"/>
+              <path d="M124 58v52" stroke="rgba(243,212,139,.7)" stroke-width="6" opacity=".8"/>
+              <path d="M62 80h34M52 98h44M58 116h38" stroke="rgba(226,180,82,.75)" stroke-width="6" stroke-linecap="round"/>
+              <circle cx="58" cy="80" r="5.5" fill="rgba(226,180,82,.75)"/>
+              <circle cx="48" cy="98" r="5.5" fill="rgba(226,180,82,.65)"/>
+              <circle cx="54" cy="116" r="5.5" fill="rgba(226,180,82,.55)"/>
+            </svg>
+            <div class="wordmark">DANIUX</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <section id="servicos">
+      <div class="container">
+        <div class="section-title reveal">
+          <h2>SERVIÇOS</h2>
+          <p>Soluções completas para levar sua marca ao próximo nível.</p>
+        </div>
+
+        <div class="grid">
+          <article class="card reveal">
+            <svg class="ico" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M4 18V6M4 18h16" stroke="rgba(226,180,82,.9)" stroke-width="1.8" stroke-linecap="round"/>
+              <path d="M7 15l3-4 3 2 4-6" stroke="rgba(243,212,139,.85)" stroke-width="1.8" stroke-linecap="round"/>
+              <path d="M17 7h3v3" stroke="rgba(226,180,82,.9)" stroke-width="1.8" stroke-linecap="round"/>
+            </svg>
+            <h3>Gestão de<br>Tráfego Pago</h3>
+          </article>
+
+          <article class="card reveal">
+            <svg class="ico" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M6 10h12M7 10V8a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v2" stroke="rgba(226,180,82,.9)" stroke-width="1.8" stroke-linecap="round"/>
+              <path d="M6 10v8a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2v-8" stroke="rgba(243,212,139,.85)" stroke-width="1.8"/>
+              <path d="M9 14h6" stroke="rgba(226,180,82,.9)" stroke-width="1.8" stroke-linecap="round"/>
+            </svg>
+            <h3>Google Business<br>Profile</h3>
+          </article>
+
+          <article class="card reveal">
+            <svg class="ico" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M12 2a3 3 0 0 1 3 3v6a3 3 0 0 1-6 0V5a3 3 0 0 1 3-3Z" stroke="rgba(226,180,82,.9)" stroke-width="1.8"/>
+              <path d="M6 11a6 6 0 0 0 12 0" stroke="rgba(243,212,139,.85)" stroke-width="1.8" stroke-linecap="round"/>
+              <path d="M12 17v4" stroke="rgba(226,180,82,.9)" stroke-width="1.8" stroke-linecap="round"/>
+            </svg>
+            <h3>Presença digital<br>estratégica</h3>
+          </article>
+
+          <article class="card reveal">
+            <svg class="ico" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M4 18V6" stroke="rgba(226,180,82,.9)" stroke-width="1.8" stroke-linecap="round"/>
+              <path d="M8 18V10" stroke="rgba(243,212,139,.85)" stroke-width="1.8" stroke-linecap="round"/>
+              <path d="M12 18V8" stroke="rgba(226,180,82,.9)" stroke-width="1.8" stroke-linecap="round"/>
+              <path d="M16 18V12" stroke="rgba(243,212,139,.85)" stroke-width="1.8" stroke-linecap="round"/>
+              <path d="M20 18V7" stroke="rgba(226,180,82,.9)" stroke-width="1.8" stroke-linecap="round"/>
+            </svg>
+            <h3>Facebook &<br>Instagram Ads</h3>
+          </article>
+
+          <article class="card reveal">
+            <svg class="ico" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M12 2l8 4v6c0 5-3.5 9-8 10-4.5-1-8-5-8-10V6l8-4Z" stroke="rgba(226,180,82,.9)" stroke-width="1.8"/>
+              <path d="M9.5 12l1.8 1.9L15 10.5" stroke="rgba(243,212,139,.85)" stroke-width="1.8" stroke-linecap="round"/>
+            </svg>
+            <h3>Estratégia e<br>posicionamento</h3>
+          </article>
+
+          <article class="card reveal">
+            <svg class="ico" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M4 7h16v10H4V7Z" stroke="rgba(226,180,82,.9)" stroke-width="1.8"/>
+              <path d="M10 9l6 3-6 3V9Z" fill="rgba(243,212,139,.75)"/>
+            </svg>
+            <h3>Criativos &<br>conteúdo</h3>
+          </article>
+
+          <article class="card reveal">
+            <svg class="ico" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1" stroke="rgba(226,180,82,.9)" stroke-width="1.6" stroke-linecap="round"/>
+              <path d="M12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10Z" stroke="rgba(243,212,139,.85)" stroke-width="1.8"/>
+            </svg>
+            <h3>Otimização &<br>crescimento</h3>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="treinamento">
+      <div class="container">
+        <div class="band reveal">
+          <div class="copy">
+            <h3>TREINAMENTO</h3>
+            <p>
+              Capacitação prática para negócios: presença digital, anúncios e rotinas que geram resultado.
+            </p>
+            <a class="btn" id="btnSaibaMais" href="#" target="_blank" rel="noopener">
+              <span class="icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none">
+                  <path d="M4 7l8-4 8 4-8 4-8-4Z" stroke="currentColor" stroke-width="1.7"/>
+                </svg>
+              </span>
+              SAIBA MAIS
+            </a>
+          </div>
+          <div class="media" role="img" aria-label="Foto de treinamento (placeholder)">
+            <div class="dots" aria-hidden="true"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="prova">
+      <div class="container">
+        <div class="section-title reveal">
+          <h2>PROVA SOCIAL</h2>
+        </div>
+
+        <div class="quotes">
+          <article class="quote reveal">
+            <div class="mark">“</div>
+            <p>A Daniux transformou nosso posicionamento e nossas vendas de forma extraordinária.</p>
+            <div class="who">
+              <div>
+                <strong>Ricardo S.</strong>
+                <small>Empresário</small>
+              </div>
+              <div class="stars" aria-label="5 estrelas">★★★★★</div>
+            </div>
+          </article>
+
+          <article class="quote reveal">
+            <div class="mark">“</div>
+            <p>Profissionais altamente capacitados e com estratégias que realmente funcionam.</p>
+            <div class="who">
+              <div>
+                <strong>Juliana M.</strong>
+                <small>Marketing Manager</small>
+              </div>
+              <div class="stars" aria-label="5 estrelas">★★★★★</div>
+            </div>
+          </article>
+
+          <article class="quote reveal">
+            <div class="mark">“</div>
+            <p>O treinamento fez toda a diferença na minha equipe.</p>
+            <div class="who">
+              <div>
+                <strong>Carlos T.</strong>
+                <small>Diretor Comercial</small>
+              </div>
+              <div class="stars" aria-label="5 estrelas">★★★★★</div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="quem">
+      <div class="container">
+        <div class="split">
+          <div class="panel about reveal">
+            <div class="photo" aria-label="Foto do especialista (placeholder)"></div>
+            <div class="txt">
+              <h3>QUEM É DANIUX</h3>
+              <p>
+                <strong>DANIEL | Presença Digital para Negócios</strong><br>
+                Especialista em Google Business Profile, tráfego pago e presença digital estratégica.
+                Atuação com Facebook & Instagram Ads para negócios que precisam de consistência, clareza e escala.
+              </p>
+              <div class="sig">
+                Daniel
+                <small>Google Business Profile • Tráfego Pago • Presença Digital</small>
+              </div>
+            </div>
+          </div>
+
+          <aside class="panel contact reveal" id="contato">
+            <div>
+              <h3>CONTATO</h3>
+              <div class="list" role="list">
+                <div class="row" role="listitem">
+                  <span class="icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none">
+                      <path d="M4 6h16v12H4V6Z" stroke="currentColor" stroke-width="1.7"/>
+                      <path d="M4 7l8 6 8-6" stroke="currentColor" stroke-width="1.7" opacity=".85"/>
+                    </svg>
+                  </span>
+                  contato@daniux.com.br
+                </div>
+                <div class="row" role="listitem">
+                  <span class="icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none">
+                      <path d="M7 4h4l1 4-2 1c1 3 3 5 6 6l1-2 4 1v4c0 1-1 2-2 2-9 0-16-7-16-16 0-1 1-2 2-2Z" stroke="currentColor" stroke-width="1.7"/>
+                    </svg>
+                  </span>
+                  WhatsApp 051-99257-1762
+                </div>
+                <div class="row" role="listitem">
+                  <span class="icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none">
+                      <path d="M7 3h10a4 4 0 0 1 4 4v10a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V7a4 4 0 0 1 4-4Z" stroke="currentColor" stroke-width="1.7"/>
+                      <path d="M12 16a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z" stroke="currentColor" stroke-width="1.7"/>
+                      <path d="M17.5 6.5h.01" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+                    </svg>
+                  </span>
+                  <a id="contactInstagramText" href="#" target="_blank" rel="noopener" style="color:inherit; text-decoration:none;">
+                    instagram.com/daniel.businessprofile
+                  </a>
+                </div>
+              </div>
+
+              <div style="margin-top:12px">
+                <a class="btn" id="btnWhats" href="#" target="_blank" rel="noopener">
+                  <span class="icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none">
+                      <path d="M7 4h4l1 4-2 1c1 3 3 5 6 6l1-2 4 1v4c0 1-1 2-2 2-9 0-16-7-16-16 0-1 1-2 2-2Z" stroke="currentColor" stroke-width="1.7"/>
+                    </svg>
+                  </span>
+                  ENVIAR MENSAGEM
+                </a>
+              </div>
+
+              <div style="margin-top:16px">
+                <div class="kicker" style="margin:0 0 10px">SIGA NAS REDES</div>
+                <div class="social" aria-label="Redes sociais">
+                  <a id="igIcon" href="#" target="_blank" rel="noopener" aria-label="Instagram" title="Instagram">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                      <path d="M7 3h10a4 4 0 0 1 4 4v10a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V7a4 4 0 0 1 4-4Z" stroke="currentColor" stroke-width="1.7"/>
+                      <path d="M12 16a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z" stroke="currentColor" stroke-width="1.7"/>
+                      <path d="M17.5 6.5h.01" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+                    </svg>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </aside>
+        </div>
+
+        <!-- Manifesto final (como você pediu) -->
+        <div class="manifesto reveal">
+          A evolução não acontece quando tudo fica fácil.<br><br>
+          Ela começa no momento em que você decide agir, mesmo enfrentando a resistência da sua própria mente.<br><br>
+          A guerra mais importante não é contra o mundo. É contra a versão de você que insiste em permanecer no mesmo lugar.<br><br>
+          <strong>⚜️ Mente • Foco • Evolução</strong>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="container foot">
+        <div class="brand" style="min-width:auto">
+          <div class="mark" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+              <path d="M7 5h6.2c3.3 0 5.8 2.5 5.8 7s-2.5 7-5.8 7H7V5Z" stroke="rgba(226,180,82,.9)" stroke-width="1.6"/>
+            </svg>
+          </div>
+          <div class="word">DANIUX</div>
+        </div>
+        <div>© 2025 Daniux. Todos os direitos reservados.</div>
+      </div>
+    </footer>
+  </main>
+
+  <script>
+    // ====== CONFIG LINKS (WhatsApp + Instagram) ======
+    const LINKS = {
+      instagram: "https://www.instagram.com/daniel.businessprofile/",
+      whatsapp: {
+        // DDD 51 + número 99257-1762
+        phoneE164: "5551992571762",
+        message: "Olá Daniel! Vi a landing da Daniux e quero ajuda com presença digital/Google Business Profile e tráfego pago. Pode me atender?"
+      }
+    };
+
+    function waLink(phoneE164, message){
+      return `https://wa.me/${phoneE164}?text=${encodeURIComponent(message)}`;
+    }
+
+    // Apply IG
+    const igIcon = document.getElementById('igIcon');
+    const contactInstagramText = document.getElementById('contactInstagramText');
+    if (igIcon) igIcon.href = LINKS.instagram;
+    if (contactInstagramText) contactInstagramText.href = LINKS.instagram;
+
+    // Apply WhatsApp across CTAs
+    const whatsHref = waLink(LINKS.whatsapp.phoneE164, LINKS.whatsapp.message);
+    ["btnWhats", "heroWhats", "navCtaWhats", "btnSaibaMais"].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.href = whatsHref;
+    });
+
+    // ====== Mobile drawer ======
+    const btn = document.getElementById('menuBtn');
+    const drawer = document.getElementById('drawer');
+
+    btn?.addEventListener('click', (e) => {
+      e.preventDefault();
+      drawer.classList.toggle('open');
+    });
+
+    drawer?.addEventListener('click', (e) => {
+      const a = e.target.closest('a');
+      if(a) drawer.classList.remove('open');
+    });
+
+    // ====== Reveal on scroll ======
+    const io = new IntersectionObserver((entries) => {
+      for (const ent of entries) {
+        if (ent.isIntersecting) ent.target.classList.add('on');
+      }
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+  </script>
+</body>
+</html>
