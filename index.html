@@ -5,6 +5,32 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>DANIUX - Protótipo</title>
 
+  <!-- Preview / SEO -->
+  <link rel="canonical" href="https://daniux.vercel.app/" />
+  <meta name="description" content="DANIEL | Presença Digital para Negócios — Google Business Profile, Tráfego Pago e campanhas Facebook & Instagram Ads." />
+  <meta name="theme-color" content="#070707" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="DANIUX — Presença Digital para Negócios" />
+  <meta property="og:description" content="Google Business Profile • Tráfego Pago • Presença digital estratégica • Facebook & Instagram Ads" />
+  <meta property="og:url" content="https://daniux.vercel.app/" />
+  <!-- Coloque um arquivo chamado 'daniux.png' na raiz do projeto (mesmo nível do index.html).
+       Fallback: se não existir, troque para uma URL (ex: imagem do seu deploy) -->
+  <meta property="og:image" content="https://daniux.vercel.app/daniux.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="DANIUX — Presença Digital para Negócios" />
+  <meta name="twitter:description" content="Google Business Profile • Tráfego Pago • Presença digital estratégica • Facebook & Instagram Ads" />
+  <meta name="twitter:image" content="https://daniux.vercel.app/daniux.png" />
+
+  <!-- Icons -->
+  <link rel="icon" href="/daniux.png" />
+  <link rel="apple-touch-icon" href="/daniux.png" />
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -22,7 +48,6 @@
       --muted: rgba(255,255,255,.65);
       --shadow: 0 18px 55px rgba(0,0,0,.55);
       --radius: 18px;
-      --radius2: 14px;
       --max: 1120px;
     }
 
@@ -44,8 +69,7 @@
       inset:0;
       pointer-events:none;
       opacity:.15;
-      background-image:
-        radial-gradient(circle at 1px 1px, rgba(226,180,82,.35) 1px, transparent 1.2px);
+      background-image: radial-gradient(circle at 1px 1px, rgba(226,180,82,.35) 1px, transparent 1.2px);
       background-size: 22px 22px;
       mask-image: radial-gradient(600px 450px at 80% 15%, #000 40%, transparent 75%);
     }
@@ -103,7 +127,7 @@
       border-radius: 14px;
       background: radial-gradient(circle at 30% 25%, rgba(243,212,139,.35), transparent 55%),
                   linear-gradient(180deg, rgba(226,180,82,.22), rgba(226,180,82,.05));
-      border: 1px solid var(--stroke);
+      border: 1px solid rgba(226,180,82,.28);
       box-shadow: 0 10px 40px rgba(0,0,0,.45);
       display:grid;
       place-items:center;
@@ -117,7 +141,7 @@
       line-height: 1;
     }
 
-    /* Desktop nav: mais natural (sem "pills" em excesso) */
+    /* Desktop nav (natural) */
     nav{
       display:flex;
       align-items:center;
@@ -193,15 +217,11 @@
       transition: transform .15s ease, border-color .15s ease, background .15s ease;
       user-select:none;
     }
-    .pill:hover{
-      transform: translateY(-1px);
-      border-color: rgba(226,180,82,.35);
-      background: linear-gradient(180deg, rgba(22,22,22,.86), rgba(10,10,10,.74));
-    }
 
     @media (max-width: 880px){
       nav{ display:none; }
       .menu-btn{ display:inline-flex; }
+
       .drawer{
         position:fixed;
         top:70px; right:20px;
@@ -215,6 +235,13 @@
       }
       .drawer.open{ display:grid; gap:10px; }
       .drawer a{ justify-content:flex-start; }
+    }
+
+    /* GARANTIR: drawer nunca aparece no desktop */
+    .drawer{ display:none !important; }
+    @media (max-width: 880px){
+      .drawer{ display:none; }
+      .drawer.open{ display:grid; }
     }
 
     /* Hero */
@@ -273,8 +300,8 @@
       transition: transform .15s ease, border-color .15s ease;
     }
     .btn:hover{ transform: translateY(-1px); border-color: rgba(226,180,82,.45); }
-    .btn:active{ transform: translateY(0px); }
 
+    /* HERO preview image area */
     .hero-art{
       position:relative;
       border-radius: var(--radius);
@@ -282,42 +309,48 @@
                   linear-gradient(180deg, rgba(18,18,18,.78), rgba(10,10,10,.70));
       border: 1px solid rgba(226,180,82,.20);
       box-shadow: var(--shadow);
-      padding: 22px;
       overflow:hidden;
       min-height: 240px;
-    }
-    .hero-logo{
-      position:absolute;
-      inset: 18px 18px auto auto;
-      opacity:.18;
-      transform: scale(1.15);
-    }
-    .bigD{
       display:grid;
       place-items:center;
-      height: 100%;
-      padding: 6px 0 0;
     }
-    .wordmark{
-      font-family: Cinzel, serif;
-      letter-spacing: .38em;
-      font-size: clamp(30px, 3vw, 44px);
-      margin-top: 10px;
-      color: rgba(243,212,139,.92);
-      text-shadow: 0 25px 70px rgba(226,180,82,.14);
+    .hero-art img{
+      width:100%;
+      height:100%;
+      object-fit: cover;
+      opacity:.95;
+      transform: scale(1.02);
+      filter: contrast(1.05) saturate(1.05) brightness(.95);
     }
-    .spark{
+    .hero-art:after{
+      content:"";
       position:absolute;
-      inset:-30px -30px auto auto;
-      width:220px; height:220px;
-      background: radial-gradient(circle at 30% 35%, rgba(243,212,139,.55), transparent 55%);
-      filter: blur(2px);
-      opacity:.28;
+      inset:0;
+      background:
+        radial-gradient(700px 360px at 35% 20%, rgba(226,180,82,.22), transparent 60%),
+        linear-gradient(90deg, rgba(0,0,0,.45), rgba(0,0,0,.10));
+      pointer-events:none;
+    }
+    .hero-badge{
+      position:absolute;
+      left:16px;
+      bottom:16px;
+      z-index:2;
+      padding: 10px 12px;
+      border-radius: 14px;
+      background: rgba(0,0,0,.28);
+      border: 1px solid rgba(226,180,82,.18);
+      color: rgba(243,212,139,.88);
+      font-family: Cinzel, serif;
+      letter-spacing:.16em;
+      text-transform: uppercase;
+      font-size: 12px;
+      backdrop-filter: blur(8px);
     }
 
     @media (max-width: 900px){
       .hero-grid{ grid-template-columns: 1fr; }
-      .hero-art{ min-height: 220px; }
+      .hero-art{ min-height: 240px; }
     }
 
     /* Sections */
@@ -362,22 +395,7 @@
       position:relative;
       overflow:hidden;
     }
-    .card:before{
-      content:"";
-      position:absolute;
-      inset:-60px -60px auto auto;
-      width:140px; height:140px;
-      background: radial-gradient(circle at 30% 35%, rgba(226,180,82,.20), transparent 55%);
-      opacity:.45;
-      transform: rotate(15deg);
-    }
     .card:hover{ transform: translateY(-2px); border-color: rgba(226,180,82,.35); }
-    .card .ico{
-      width:34px; height:34px;
-      color: rgba(226,180,82,.9);
-      opacity:.95;
-      margin-bottom:10px;
-    }
     .card h3{
       margin:0;
       font-size: 12.5px;
@@ -400,7 +418,7 @@
       min-height: 240px;
     }
     .band .copy{
-      padding: 22px 22px 22px;
+      padding: 22px;
       display:flex;
       flex-direction:column;
       justify-content:center;
@@ -419,7 +437,6 @@
       color: var(--muted);
       line-height:1.6;
       font-size: 14.5px;
-      max-width: 62ch;
     }
     .band .media{
       position:relative;
@@ -488,7 +505,6 @@
     .about{
       display:grid;
       grid-template-columns: 260px 1fr;
-      gap: 0;
       min-height: 290px;
     }
     .photo{
@@ -512,10 +528,9 @@
       color: var(--muted);
       line-height:1.65;
       font-size: 14.2px;
-      max-width: 72ch;
     }
     .sig{ margin-top: 14px; color: rgba(243,212,139,.86); font-family: "Cinzel", serif; letter-spacing:.12em; }
-    .sig small{ display:block; color: rgba(255,255,255,.58); font-family: Inter, sans-serif; letter-spacing:0; margin-top: 6px; }
+    .sig small{ display:block; color: rgba(255,255,255,.58); font-family: Inter, sans-serif; margin-top: 6px; }
 
     .contact{
       padding: 18px;
@@ -573,9 +588,46 @@
       color: rgba(255,255,255,.72);
       line-height: 1.7;
     }
-    .manifesto strong{
-      color: rgba(243,212,139,.92);
-      font-weight: 600;
+    .manifesto strong{ color: rgba(243,212,139,.92); font-weight: 600; }
+
+    /* Map */
+    .map{
+      margin-top: 14px;
+      border-radius: 16px;
+      overflow:hidden;
+      border: 1px solid rgba(226,180,82,.16);
+      background: rgba(0,0,0,.22);
+      box-shadow: 0 16px 40px rgba(0,0,0,.25);
+    }
+    .map .head{
+      padding: 14px 16px;
+      border-bottom: 1px solid rgba(226,180,82,.14);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 12px;
+      flex-wrap:wrap;
+    }
+    .map .head strong{
+      font-family: Cinzel, serif;
+      letter-spacing:.14em;
+      text-transform: uppercase;
+      color: rgba(243,212,139,.90);
+      font-size: 14px;
+    }
+    .map .head a{
+      color: rgba(243,212,139,.86);
+      text-decoration:none;
+      border-bottom: 1px solid rgba(226,180,82,.35);
+      padding-bottom: 2px;
+      font-size: 13px;
+    }
+    .map iframe{
+      width:100%;
+      height: 320px;
+      border:0;
+      display:block;
+      filter: saturate(1) contrast(1.05) brightness(.95);
     }
 
     footer{
@@ -622,57 +674,14 @@
           <div class="word">DANIUX</div>
         </div>
 
-        <!-- Desktop nav (natural) -->
         <nav aria-label="Navegação principal">
-          <a class="navlink" href="#servicos">
-            <span class="icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none">
-                <path d="M12 3l7 7-9 11-7-7 11-11Z" stroke="currentColor" stroke-width="1.7"/>
-              </svg>
-            </span>
-            Serviços
-          </a>
-
-          <a class="navlink" href="#treinamento">
-            <span class="icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none">
-                <path d="M4 7l8-4 8 4-8 4-8-4Z" stroke="currentColor" stroke-width="1.7"/>
-              </svg>
-            </span>
-            Treinamento
-          </a>
-
-          <a class="navlink" href="#prova">
-            <span class="icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none">
-                <path d="M16 11c1.7 0 3 1.3 3 3v5h-6v-5c0-1.7 1.3-3 3-3Z" stroke="currentColor" stroke-width="1.7"/>
-                <path d="M8 11c1.7 0 3 1.3 3 3v5H5v-5c0-1.7 1.3-3 3-3Z" stroke="currentColor" stroke-width="1.7" opacity=".85"/>
-              </svg>
-            </span>
-            Prova Social
-          </a>
-
-          <a class="navlink" href="#quem">
-            <span class="icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none">
-                <path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z" stroke="currentColor" stroke-width="1.7"/>
-                <path d="M4 21c1.8-4 13.2-4 16 0" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
-              </svg>
-            </span>
-            Quem é
-          </a>
-
-          <a class="nav-cta" id="navCtaWhats" href="#" target="_blank" rel="noopener">
-            <span class="icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none">
-                <path d="M7 4h4l1 4-2 1c1 3 3 5 6 6l1-2 4 1v4c0 1-1 2-2 2-9 0-16-7-16-16 0-1 1-2 2-2Z" stroke="currentColor" stroke-width="1.7"/>
-              </svg>
-            </span>
-            Contato
-          </a>
+          <a class="navlink" href="#servicos">Serviços</a>
+          <a class="navlink" href="#treinamento">Treinamento</a>
+          <a class="navlink" href="#prova">Prova Social</a>
+          <a class="navlink" href="#quem">Quem é</a>
+          <a class="nav-cta" id="navCtaWhats" href="#" target="_blank" rel="noopener">Contato</a>
         </nav>
 
-        <!-- Mobile button -->
         <a class="pill menu-btn" id="menuBtn" href="#menu" aria-label="Abrir menu">
           <span class="icon" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none">
@@ -700,51 +709,18 @@
           <p class="kicker">DANIEL | Presença Digital para Negócios</p>
           <h1>MARKETING QUE<br><span class="gold">GERA RESULTADOS</span></h1>
           <p class="lead">
-            Presença digital estratégica para negócios: Google Business Profile, tráfego pago e campanhas
-            no Facebook & Instagram Ads.
+            | Especialista em Google Business Profile<br>
+            | Tráfego Pago<br>
+            | Presença digital estratégica<br>
+            | Facebook & Instagram Ads
           </p>
-          <a class="btn" id="heroWhats" href="#" target="_blank" rel="noopener">
-            <span class="icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none">
-                <path d="M7 4h4l1 4-2 1c1 3 3 5 6 6l1-2 4 1v4c0 1-1 2-2 2-9 0-16-7-16-16 0-1 1-2 2-2Z" stroke="currentColor" stroke-width="1.7"/>
-              </svg>
-            </span>
-            FALE COM UM ESPECIALISTA
-          </a>
+          <a class="btn" id="heroWhats" href="#" target="_blank" rel="noopener">FALE COM UM ESPECIALISTA</a>
         </div>
 
-        <div class="hero-art reveal">
-          <div class="spark" aria-hidden="true"></div>
-
-          <div class="hero-logo" aria-hidden="true">
-            <svg width="240" height="240" viewBox="0 0 240 240" fill="none">
-              <path d="M72 46h60c36 0 64 29 64 74s-28 74-64 74H72V46Z"
-                    stroke="rgba(226,180,82,.9)" stroke-width="10"/>
-              <path d="M88 70h40c25 0 45 22 45 50s-20 50-45 50H88"
-                    stroke="rgba(243,212,139,.65)" stroke-width="10" opacity=".8"/>
-              <path d="M50 92h30M35 120h45M44 150h36" stroke="rgba(226,180,82,.6)" stroke-width="6" stroke-linecap="round"/>
-              <circle cx="46" cy="92" r="6" fill="rgba(226,180,82,.6)"/>
-              <circle cx="33" cy="120" r="6" fill="rgba(226,180,82,.5)"/>
-              <circle cx="40" cy="150" r="6" fill="rgba(226,180,82,.45)"/>
-            </svg>
-          </div>
-
-          <div class="bigD">
-            <svg width="180" height="130" viewBox="0 0 240 170" fill="none" aria-label="Logo DANIUX (placeholder)">
-              <path d="M62 26h78c48 0 86 37 86 59s-38 59-86 59H62V26Z"
-                    stroke="rgba(226,180,82,.95)" stroke-width="10"/>
-              <path d="M124 58c-14 0-25 12-25 26s11 26 25 26"
-                    stroke="rgba(243,212,139,.8)" stroke-width="8" stroke-linecap="round"/>
-              <path d="M124 58c14 0 25 12 25 26s-11 26-25 26"
-                    stroke="rgba(243,212,139,.8)" stroke-width="8" stroke-linecap="round"/>
-              <path d="M124 58v52" stroke="rgba(243,212,139,.7)" stroke-width="6" opacity=".8"/>
-              <path d="M62 80h34M52 98h44M58 116h38" stroke="rgba(226,180,82,.75)" stroke-width="6" stroke-linecap="round"/>
-              <circle cx="58" cy="80" r="5.5" fill="rgba(226,180,82,.75)"/>
-              <circle cx="48" cy="98" r="5.5" fill="rgba(226,180,82,.65)"/>
-              <circle cx="54" cy="116" r="5.5" fill="rgba(226,180,82,.55)"/>
-            </svg>
-            <div class="wordmark">DANIUX</div>
-          </div>
+        <!-- HERO IMAGE: usa /daniux.png na raiz; fallback Unsplash se falhar -->
+        <div class="hero-art reveal" aria-label="Preview DANIUX">
+          <img id="heroImg" src="/daniux.png" alt="Daniux preview" loading="eager" />
+          <div class="hero-badge">DANIUX</div>
         </div>
       </div>
     </div>
@@ -757,67 +733,13 @@
         </div>
 
         <div class="grid">
-          <article class="card reveal">
-            <svg class="ico" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path d="M4 18V6M4 18h16" stroke="rgba(226,180,82,.9)" stroke-width="1.8" stroke-linecap="round"/>
-              <path d="M7 15l3-4 3 2 4-6" stroke="rgba(243,212,139,.85)" stroke-width="1.8" stroke-linecap="round"/>
-              <path d="M17 7h3v3" stroke="rgba(226,180,82,.9)" stroke-width="1.8" stroke-linecap="round"/>
-            </svg>
-            <h3>Gestão de<br>Tráfego Pago</h3>
-          </article>
-
-          <article class="card reveal">
-            <svg class="ico" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path d="M6 10h12M7 10V8a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v2" stroke="rgba(226,180,82,.9)" stroke-width="1.8" stroke-linecap="round"/>
-              <path d="M6 10v8a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2v-8" stroke="rgba(243,212,139,.85)" stroke-width="1.8"/>
-              <path d="M9 14h6" stroke="rgba(226,180,82,.9)" stroke-width="1.8" stroke-linecap="round"/>
-            </svg>
-            <h3>Google Business<br>Profile</h3>
-          </article>
-
-          <article class="card reveal">
-            <svg class="ico" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path d="M12 2a3 3 0 0 1 3 3v6a3 3 0 0 1-6 0V5a3 3 0 0 1 3-3Z" stroke="rgba(226,180,82,.9)" stroke-width="1.8"/>
-              <path d="M6 11a6 6 0 0 0 12 0" stroke="rgba(243,212,139,.85)" stroke-width="1.8" stroke-linecap="round"/>
-              <path d="M12 17v4" stroke="rgba(226,180,82,.9)" stroke-width="1.8" stroke-linecap="round"/>
-            </svg>
-            <h3>Presença digital<br>estratégica</h3>
-          </article>
-
-          <article class="card reveal">
-            <svg class="ico" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path d="M4 18V6" stroke="rgba(226,180,82,.9)" stroke-width="1.8" stroke-linecap="round"/>
-              <path d="M8 18V10" stroke="rgba(243,212,139,.85)" stroke-width="1.8" stroke-linecap="round"/>
-              <path d="M12 18V8" stroke="rgba(226,180,82,.9)" stroke-width="1.8" stroke-linecap="round"/>
-              <path d="M16 18V12" stroke="rgba(243,212,139,.85)" stroke-width="1.8" stroke-linecap="round"/>
-              <path d="M20 18V7" stroke="rgba(226,180,82,.9)" stroke-width="1.8" stroke-linecap="round"/>
-            </svg>
-            <h3>Facebook &<br>Instagram Ads</h3>
-          </article>
-
-          <article class="card reveal">
-            <svg class="ico" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path d="M12 2l8 4v6c0 5-3.5 9-8 10-4.5-1-8-5-8-10V6l8-4Z" stroke="rgba(226,180,82,.9)" stroke-width="1.8"/>
-              <path d="M9.5 12l1.8 1.9L15 10.5" stroke="rgba(243,212,139,.85)" stroke-width="1.8" stroke-linecap="round"/>
-            </svg>
-            <h3>Estratégia e<br>posicionamento</h3>
-          </article>
-
-          <article class="card reveal">
-            <svg class="ico" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path d="M4 7h16v10H4V7Z" stroke="rgba(226,180,82,.9)" stroke-width="1.8"/>
-              <path d="M10 9l6 3-6 3V9Z" fill="rgba(243,212,139,.75)"/>
-            </svg>
-            <h3>Criativos &<br>conteúdo</h3>
-          </article>
-
-          <article class="card reveal">
-            <svg class="ico" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1" stroke="rgba(226,180,82,.9)" stroke-width="1.6" stroke-linecap="round"/>
-              <path d="M12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10Z" stroke="rgba(243,212,139,.85)" stroke-width="1.8"/>
-            </svg>
-            <h3>Otimização &<br>crescimento</h3>
-          </article>
+          <article class="card reveal"><h3>Gestão de<br>Tráfego Pago</h3></article>
+          <article class="card reveal"><h3>Google Business<br>Profile</h3></article>
+          <article class="card reveal"><h3>Presença digital<br>estratégica</h3></article>
+          <article class="card reveal"><h3>Facebook &<br>Instagram Ads</h3></article>
+          <article class="card reveal"><h3>Estratégia e<br>posicionamento</h3></article>
+          <article class="card reveal"><h3>Criativos &<br>conteúdo</h3></article>
+          <article class="card reveal"><h3>Otimização &<br>crescimento</h3></article>
         </div>
       </div>
     </section>
@@ -827,17 +749,8 @@
         <div class="band reveal">
           <div class="copy">
             <h3>TREINAMENTO</h3>
-            <p>
-              Capacitação prática para negócios: presença digital, anúncios e rotinas que geram resultado.
-            </p>
-            <a class="btn" id="btnSaibaMais" href="#" target="_blank" rel="noopener">
-              <span class="icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none">
-                  <path d="M4 7l8-4 8 4-8 4-8-4Z" stroke="currentColor" stroke-width="1.7"/>
-                </svg>
-              </span>
-              SAIBA MAIS
-            </a>
+            <p>Capacitação prática para negócios: presença digital, anúncios e rotinas que geram resultado.</p>
+            <a class="btn" id="btnSaibaMais" href="#" target="_blank" rel="noopener">SAIBA MAIS</a>
           </div>
           <div class="media" role="img" aria-label="Foto de treinamento (placeholder)">
             <div class="dots" aria-hidden="true"></div>
@@ -850,44 +763,13 @@
       <div class="container">
         <div class="section-title reveal">
           <h2>PROVA SOCIAL</h2>
+          <p>Feedbacks reais de clientes e parceiros.</p>
         </div>
 
         <div class="quotes">
-          <article class="quote reveal">
-            <div class="mark">“</div>
-            <p>A Daniux transformou nosso posicionamento e nossas vendas de forma extraordinária.</p>
-            <div class="who">
-              <div>
-                <strong>Ricardo S.</strong>
-                <small>Empresário</small>
-              </div>
-              <div class="stars" aria-label="5 estrelas">★★★★★</div>
-            </div>
-          </article>
-
-          <article class="quote reveal">
-            <div class="mark">“</div>
-            <p>Profissionais altamente capacitados e com estratégias que realmente funcionam.</p>
-            <div class="who">
-              <div>
-                <strong>Juliana M.</strong>
-                <small>Marketing Manager</small>
-              </div>
-              <div class="stars" aria-label="5 estrelas">★★★★★</div>
-            </div>
-          </article>
-
-          <article class="quote reveal">
-            <div class="mark">“</div>
-            <p>O treinamento fez toda a diferença na minha equipe.</p>
-            <div class="who">
-              <div>
-                <strong>Carlos T.</strong>
-                <small>Diretor Comercial</small>
-              </div>
-              <div class="stars" aria-label="5 estrelas">★★★★★</div>
-            </div>
-          </article>
+          <article class="quote reveal"><div class="mark">“</div><p>A Daniux transformou nosso posicionamento e nossas vendas de forma extraordinária.</p><div class="who"><div><strong>Ricardo S.</strong><small>Empresário</small></div><div class="stars">★★★★★</div></div></article>
+          <article class="quote reveal"><div class="mark">“</div><p>Profissionais altamente capacitados e com estratégias que realmente funcionam.</p><div class="who"><div><strong>Juliana M.</strong><small>Marketing Manager</small></div><div class="stars">★★★★★</div></div></article>
+          <article class="quote reveal"><div class="mark">“</div><p>O treinamento fez toda a diferença na minha equipe.</p><div class="who"><div><strong>Carlos T.</strong><small>Diretor Comercial</small></div><div class="stars">★★★★★</div></div></article>
         </div>
       </div>
     </section>
@@ -901,8 +783,8 @@
               <h3>QUEM É DANIUX</h3>
               <p>
                 <strong>DANIEL | Presença Digital para Negócios</strong><br>
-                Especialista em Google Business Profile, tráfego pago e presença digital estratégica.
-                Atuação com Facebook & Instagram Ads para negócios que precisam de consistência, clareza e escala.
+                Especialista em Google Business Profile, tráfego pago, presença digital estratégica e
+                campanhas no Facebook & Instagram Ads.
               </p>
               <div class="sig">
                 Daniel
@@ -915,31 +797,9 @@
             <div>
               <h3>CONTATO</h3>
               <div class="list" role="list">
+                <div class="row" role="listitem">contato@daniux.com.br</div>
+                <div class="row" role="listitem">WhatsApp 051-99257-1762</div>
                 <div class="row" role="listitem">
-                  <span class="icon" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" fill="none">
-                      <path d="M4 6h16v12H4V6Z" stroke="currentColor" stroke-width="1.7"/>
-                      <path d="M4 7l8 6 8-6" stroke="currentColor" stroke-width="1.7" opacity=".85"/>
-                    </svg>
-                  </span>
-                  contato@daniux.com.br
-                </div>
-                <div class="row" role="listitem">
-                  <span class="icon" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" fill="none">
-                      <path d="M7 4h4l1 4-2 1c1 3 3 5 6 6l1-2 4 1v4c0 1-1 2-2 2-9 0-16-7-16-16 0-1 1-2 2-2Z" stroke="currentColor" stroke-width="1.7"/>
-                    </svg>
-                  </span>
-                  WhatsApp 051-99257-1762
-                </div>
-                <div class="row" role="listitem">
-                  <span class="icon" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" fill="none">
-                      <path d="M7 3h10a4 4 0 0 1 4 4v10a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V7a4 4 0 0 1 4-4Z" stroke="currentColor" stroke-width="1.7"/>
-                      <path d="M12 16a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z" stroke="currentColor" stroke-width="1.7"/>
-                      <path d="M17.5 6.5h.01" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
-                    </svg>
-                  </span>
                   <a id="contactInstagramText" href="#" target="_blank" rel="noopener" style="color:inherit; text-decoration:none;">
                     instagram.com/daniel.businessprofile
                   </a>
@@ -947,14 +807,7 @@
               </div>
 
               <div style="margin-top:12px">
-                <a class="btn" id="btnWhats" href="#" target="_blank" rel="noopener">
-                  <span class="icon" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" fill="none">
-                      <path d="M7 4h4l1 4-2 1c1 3 3 5 6 6l1-2 4 1v4c0 1-1 2-2 2-9 0-16-7-16-16 0-1 1-2 2-2Z" stroke="currentColor" stroke-width="1.7"/>
-                    </svg>
-                  </span>
-                  ENVIAR MENSAGEM
-                </a>
+                <a class="btn" id="btnWhats" href="#" target="_blank" rel="noopener">ENVIAR MENSAGEM</a>
               </div>
 
               <div style="margin-top:16px">
@@ -973,12 +826,26 @@
           </aside>
         </div>
 
-        <!-- Manifesto final (como você pediu) -->
         <div class="manifesto reveal">
           A evolução não acontece quando tudo fica fácil.<br><br>
           Ela começa no momento em que você decide agir, mesmo enfrentando a resistência da sua própria mente.<br><br>
           A guerra mais importante não é contra o mundo. É contra a versão de você que insiste em permanecer no mesmo lugar.<br><br>
           <strong>⚜️ Mente • Foco • Evolução</strong>
+        </div>
+
+        <!-- MAPA NO FINAL -->
+        <div class="map reveal" aria-label="Localização no Google Maps">
+          <div class="head">
+            <strong>LOCALIZAÇÃO</strong>
+            <a id="openMaps" href="#" target="_blank" rel="noopener">Abrir no Google Maps</a>
+          </div>
+          <iframe
+            id="mapsFrame"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            title="Daniux - Três Corações MG"
+            src="">
+          </iframe>
         </div>
       </div>
     </section>
@@ -999,21 +866,23 @@
   </main>
 
   <script>
-    // ====== CONFIG LINKS (WhatsApp + Instagram) ======
+    // ====== CONFIG LINKS (WhatsApp + Instagram + Maps + Preview) ======
     const LINKS = {
       instagram: "https://www.instagram.com/daniel.businessprofile/",
       whatsapp: {
-        // DDD 51 + número 99257-1762
         phoneE164: "5551992571762",
         message: "Olá Daniel! Vi a landing da Daniux e quero ajuda com presença digital/Google Business Profile e tráfego pago. Pode me atender?"
-      }
+      },
+      address: "Rua João XXIII, 93 - Centro, Três Corações - MG",
+      // Fallback de imagem caso /daniux.png não exista:
+      heroFallbackUnsplash: "https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=1400&q=80"
     };
 
     function waLink(phoneE164, message){
       return `https://wa.me/${phoneE164}?text=${encodeURIComponent(message)}`;
     }
 
-    // Apply IG
+    // Apply Instagram
     const igIcon = document.getElementById('igIcon');
     const contactInstagramText = document.getElementById('contactInstagramText');
     if (igIcon) igIcon.href = LINKS.instagram;
@@ -1026,18 +895,40 @@
       if (el) el.href = whatsHref;
     });
 
+    // ====== Maps ======
+    const openMaps = document.getElementById('openMaps');
+    const q = encodeURIComponent(LINKS.address);
+    if (openMaps) openMaps.href = `https://www.google.com/maps/search/?api=1&query=${q}`;
+
+    const mapsFrame = document.getElementById('mapsFrame');
+    if (mapsFrame) mapsFrame.src = `https://www.google.com/maps?q=${q}&output=embed`;
+
+    // ====== Hero image: try /daniux.png, fallback to Unsplash ======
+    const heroImg = document.getElementById('heroImg');
+    if (heroImg) {
+      heroImg.addEventListener('error', () => {
+        heroImg.src = LINKS.heroFallbackUnsplash;
+      }, { once: true });
+    }
+
     // ====== Mobile drawer ======
     const btn = document.getElementById('menuBtn');
     const drawer = document.getElementById('drawer');
 
     btn?.addEventListener('click', (e) => {
       e.preventDefault();
-      drawer.classList.toggle('open');
+      if (window.matchMedia("(max-width: 880px)").matches) {
+        drawer.classList.toggle('open');
+      }
     });
 
     drawer?.addEventListener('click', (e) => {
       const a = e.target.closest('a');
       if(a) drawer.classList.remove('open');
+    });
+
+    window.addEventListener('resize', () => {
+      if (!window.matchMedia("(max-width: 880px)").matches) drawer.classList.remove('open');
     });
 
     // ====== Reveal on scroll ======
